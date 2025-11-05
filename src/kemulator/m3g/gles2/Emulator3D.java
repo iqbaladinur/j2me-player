@@ -305,6 +305,7 @@ public final class Emulator3D {
 	private void drawBackgroundImage(Background bg) {
 		if (bg == null || bg.getImage() == null || bg.getCropWidth() <= 0 || bg.getCropHeight() <= 0) return;
 
+		GLES2.disable(GL_CULL_FACE); // we can't rely on frontFace/cullFace settings
 		GLES2.disable(GL_BLEND);
 		GLES2.depthFunc(GL_ALWAYS);
 		GLES2.depthMask(false);
@@ -398,6 +399,7 @@ public final class Emulator3D {
 	public void blitBackground() { // eyy.. rushed, check this..
 		if (!(target instanceof Graphics)) return;
 
+		GLES2.disable(GL_CULL_FACE); // we can't rely on frontFace/cullFace settings
 		GLES2.disable(GL_BLEND);
 		GLES2.depthFunc(GL_ALWAYS);
 		GLES2.depthMask(false); // possibly we'd not want it and write via gl_Position
