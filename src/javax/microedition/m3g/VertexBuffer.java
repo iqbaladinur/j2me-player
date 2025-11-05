@@ -438,7 +438,7 @@ public class VertexBuffer extends Object3D {
 					}
 
 					int vcc = 3;
-					for (int t=0; t<posesArrFlat.length/vcc; t++) {
+					for (int t=0; t<numVertices/vcc; t++) {
 						for (int c=0; c<vcc; c++) {
 							short tmp = posesArrFlat[t*vcc];
 							bufferBuffer[4*(t*cc+5)+c] = tmp;
