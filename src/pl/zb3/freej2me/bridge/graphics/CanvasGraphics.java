@@ -19,6 +19,7 @@ public class CanvasGraphics extends javax.microedition.lcdui.Graphics {
 
 
 	protected int barHeight = 0;
+    protected boolean opaqueColor = true;
 
 
     public CanvasGraphics(Object ctxHandle, Object canvasHandle, int width, int height) {
@@ -188,7 +189,12 @@ public class CanvasGraphics extends javax.microedition.lcdui.Graphics {
 	}
 
     public void fillPolygon(int[] x, int[] y, int nPoints) {
-		fillPolygon(ctxHandle, x, y, nPoints);
+        // canvas has no API to disable antialiasing but some games draw polygons
+        // using multiple calls to fillTriangle.. in this case we must force
+        // the triangle to be drawn with sharp edges even if it's slower
+        // but it currently only works for opaque triangles
+
+		fillPolygon(ctxHandle, x, y, nPoints, x.length == 3 && opaqueColor);
         argbCache = null;
 	}
 
@@ -250,6 +256,8 @@ public class CanvasGraphics extends javax.microedition.lcdui.Graphics {
     public void setAlphaRGB(int argb) {
         color = argb;
         setColor(ctxHandle, (color >> 16)&0xff, (color >> 8)&0xff, (color)&0xff, (color >> 24)&0xff);
+
+        opaqueColor = ((color >> 24)&0xff) == 0xff;
 	}
 
     public void translate(int x, int y) {
@@ -402,7 +410,7 @@ public class CanvasGraphics extends javax.microedition.lcdui.Graphics {
 
 	private static native void drawPolygon(Object handle, int[] x, int[] y, int nPoints);
 
-    private static native void fillPolygon(Object handle, int[] x, int[] y, int nPoints);
+    private static native void fillPolygon(Object handle, int[] x, int[] y, int nPoints, boolean useSharpFillHack);
 
 
     private static native void drawText(Object handle, String str, int x, int y);
