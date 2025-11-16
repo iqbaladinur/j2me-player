@@ -354,7 +354,7 @@ public abstract class Canvas extends Displayable
 
 	public void serviceRepaints()
 	{
-		if (Mobile.getDisplay().getCurrent() == this)
+		if (usePaintQueue && Mobile.getDisplay().getCurrent() == this)
 		{
 			synchronized (Display.calloutLock) {
 				actuallyRepaint(0, 0, width, height);
