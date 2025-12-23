@@ -18,6 +18,7 @@
 
 ## 📋 Table of Contents
 
+- [About](#-about)
 - [Features](#-features)
 - [Demo](#-demo)
 - [Quick Start](#-quick-start)
@@ -25,6 +26,8 @@
 - [Troubleshooting](#-troubleshooting)
 - [Technical Architecture](#️-technical-architecture)
 - [Building from Source](#️-building-from-source)
+- [Deployment](#-deployment)
+- [About CheerpJ](#-about-cheerpj)
 - [Embedding Games](#-embedding-games)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -179,6 +182,31 @@ npx serve -u web
 > **📝 Note:** CheerpJ requires proper handling of the `Range` header. The `serve` command above is configured to handle this correctly.
 
 Then open your browser to `http://localhost:3000` (or the port shown in terminal).
+
+## 🌐 Deployment
+
+### Quick Deploy to Cloudflare Pages
+
+**Recommended platform** for best performance and compatibility.
+
+1. **Push to Git repository** (GitHub/GitLab/Bitbucket)
+2. **Connect to Cloudflare Pages**:
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Pages
+   - Click **Connect to Git**
+   - Select your repository
+   - Set **Build output directory**: `web`
+   - Deploy!
+
+3. **If you get Range header error**:
+   ```bash
+   # Trigger redeploy
+   git commit --allow-empty -m "Trigger redeploy"
+   git push
+   ```
+   - Wait 1-2 minutes for CDN propagation
+   - Hard refresh browser (Ctrl+Shift+R)
+
+> **📚 Full deployment guide:** See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions, other platforms (Netlify, Vercel, self-hosted), and troubleshooting.
 
 ## 📡 About CheerpJ
 

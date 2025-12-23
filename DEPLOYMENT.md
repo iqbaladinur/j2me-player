@@ -378,7 +378,63 @@ Already configured in `web/_headers` for Cloudflare Pages.
 ## Troubleshooting
 
 ### Issue: "CheerpJ cannot run - Range header not supported"
-**Solution:** Deploy to a platform that supports Range headers (Cloudflare Pages, Netlify, or self-hosted with nginx/Apache).
+
+**Common on Cloudflare Pages after first deploy.**
+
+**Solutions:**
+
+1. **Verify `_headers` file exists:**
+   ```bash
+   ls web/_headers
+   # Should show the file
+   ```
+
+2. **Redeploy the project:**
+   - Go to Cloudflare Dashboard → Pages → Your Project
+   - Click **Deployments** tab
+   - Click **Retry deployment** on latest deployment
+   - OR trigger new deployment:
+     ```bash
+     git commit --allow-empty -m "Trigger redeploy"
+     git push
+     ```
+
+3. **Clear Cloudflare cache:**
+   - Go to Cloudflare Dashboard → Pages → Your Project
+   - Click **Custom domains** tab
+   - Click **Purge cache**
+
+4. **Verify headers are working:**
+   ```bash
+   # Test your JAR file URL
+   curl -I https://your-site.pages.dev/freej2me-web.jar
+   # Must show: Accept-Ranges: bytes
+   ```
+
+5. **Hard refresh browser:**
+   - Chrome/Edge: `Ctrl+Shift+R` (Windows) or `Cmd+Shift+R` (Mac)
+   - Firefox: `Ctrl+F5`
+   - Or clear browser cache completely
+
+6. **Check file structure:**
+   ```
+   web/
+   ├── _headers          ← Must be in web/ folder
+   ├── index.html
+   ├── run.html
+   ├── freej2me-web.jar  ← File to test
+   └── ...
+   ```
+
+**Why this happens:**
+- First deployment may not pick up `_headers` file immediately
+- Cloudflare needs to propagate headers across CDN
+- Browser cache may serve old response without headers
+
+**After fixing:**
+- Wait 1-2 minutes for CDN propagation
+- Test with `curl -I` command above
+- Hard refresh browser
 
 ### Issue: Service Worker not registering
 **Check:**
