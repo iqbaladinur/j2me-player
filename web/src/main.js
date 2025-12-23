@@ -232,7 +232,7 @@ async function ensureAppInstalled(lib, appId) {
 }
 
 async function init() {
-    document.getElementById("loading").textContent = "Loading CheerpJ...";
+    document.getElementById("loading").textContent = "Loading Sandbox";
 
     display = document.getElementById('display');
     screenCtx = display.getContext('2d');

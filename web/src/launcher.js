@@ -13,14 +13,14 @@ let state = {
 let defaultSettings = {};
 
 async function main() {
-    document.getElementById("loading").textContent = "Loading CheerpJ...";
+    document.querySelector("#loading .loading-text").textContent = "Loading Sandbox";
     await cheerpjInit({
         enableDebug: false
     });
 
     lib = await cheerpjRunLibrary(cheerpjWebRoot+"/freej2me-web.jar");
 
-    document.getElementById("loading").textContent = "Loading...";
+    document.querySelector("#loading .loading-text").textContent = "Loading...";
 
     launcherUtil = await lib.pl.zb3.freej2me.launcher.LauncherUtil;
 

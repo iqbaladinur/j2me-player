@@ -8,6 +8,8 @@
 
   <body>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
       html,
       body {
         height: 100%;
@@ -16,60 +18,343 @@
       body {
         margin: 0;
         padding: 0;
-        background-color: #eee;
-        font-family: sans;
+        background:
+          radial-gradient(2px 2px at 20% 30%, white, transparent),
+          radial-gradient(2px 2px at 60% 70%, white, transparent),
+          radial-gradient(1px 1px at 50% 50%, white, transparent),
+          radial-gradient(1px 1px at 80% 10%, white, transparent),
+          radial-gradient(2px 2px at 90% 60%, white, transparent),
+          radial-gradient(1px 1px at 33% 90%, white, transparent),
+          radial-gradient(2px 2px at 15% 80%, white, transparent),
+          radial-gradient(1px 1px at 70% 40%, white, transparent),
+          #0a0a0f;
+        background-size: 200% 200%;
+        animation: stars-twinkle 10s ease-in-out infinite;
+        font-family: 'VT323', monospace;
+        font-size: 1.2em;
+      }
+
+      @keyframes stars-twinkle {
+        0%, 100% { background-position: 0% 0%; }
+        50% { background-position: 100% 100%; }
+      }
+
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15) 0px,
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        );
+        pointer-events: none;
+        z-index: 9999;
       }
 
       #loading {
         position: absolute;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         inset: 0;
+        gap: 30px;
         font-size: 2em;
+      }
+
+      .cartridge-loader {
+        width: 100px;
+        height: 120px;
+        background: linear-gradient(145deg, var(--panel-dark), var(--arcade-black));
+        border: 3px solid var(--neon-cyan);
+        box-shadow: var(--glow-cyan);
+        position: relative;
+        animation: spin 2s ease-in-out infinite, glow-pulse 1.5s ease-in-out infinite;
+      }
+
+      .cartridge-loader::before {
+        content: 'J2ME';
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Press Start 2P', cursive;
+        font-size: 10px;
+        color: var(--neon-pink);
+        text-shadow: 0 0 5px var(--neon-pink);
+      }
+
+      .cartridge-loader::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 10px;
+        background: var(--deep-space);
+        border-top: 2px solid var(--neon-yellow);
+      }
+
+      @keyframes spin {
+        0%, 100% { transform: rotateY(0deg); }
+        50% { transform: rotateY(180deg); }
+      }
+
+      @keyframes glow-pulse {
+        0%, 100% { box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
+        50% { box-shadow: 0 0 30px var(--neon-cyan), 0 0 50px var(--neon-cyan), 0 0 70px var(--neon-cyan); }
+      }
+
+      .loading-text {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.8em;
+        color: var(--neon-yellow);
+        text-shadow: 0 0 10px var(--neon-yellow);
+        animation: blink 1s step-start infinite;
+      }
+
+      @keyframes blink {
+        50% { opacity: 0.3; }
       }
 
       main {
         margin: auto;
-        width: 100%;
-        max-width: 360px;
+        width: 95%;
+        max-width: 1200px;
+        padding: 30px;
+        height: 90vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
-      @media (min-width: 480px) {
+      .main-content {
+        display: grid;
+        grid-template-columns: 450px 1fr;
+        gap: 30px;
+        margin-top: 20px;
+        border: 3px solid var(--neon-cyan);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow:
+          inset 0 0 50px rgba(0,0,0,0.5),
+          0 0 30px rgba(0,255,255,0.3);
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .left-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow: hidden;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: auto;
+        padding-right: 10px;
+      }
+
+      .right-panel::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .right-panel::-webkit-scrollbar-track {
+        background: var(--arcade-black);
+        border: 2px solid var(--neon-purple);
+        border-radius: 0;
+      }
+
+      .right-panel::-webkit-scrollbar-thumb {
+        background: var(--neon-purple);
+        border-radius: 0;
+        box-shadow: 0 0 10px var(--neon-purple);
+      }
+
+      .right-panel::-webkit-scrollbar-thumb:hover {
+        background: #cc40ff;
+        box-shadow: 0 0 15px var(--neon-purple);
+      }
+
+      @media (max-width: 1024px) {
         main {
-          max-width: 480px;
+          height: auto;
+          overflow-y: auto;
+        }
+
+        .main-content {
+          grid-template-columns: 1fr;
+          overflow: visible;
+        }
+
+        .left-panel {
+          overflow: visible;
+        }
+
+        .game-list-container {
+          flex: none;
+        }
+
+        .game-list {
+          max-height: 400px;
+          flex: none;
+        }
+
+        .keyboard-controls {
+          margin-top: 0;
+        }
+
+        .keyboard-controls-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        main {
+          margin: 10px;
+          padding: 20px;
+          width: calc(100% - 20px);
+          height: auto;
+        }
+
+        .header {
+          flex-direction: column;
+          gap: 15px;
+          align-items: flex-start;
+        }
+
+        .data-controls {
+          display: flex;
+          gap: 10px;
+          width: 100%;
+        }
+
+        .data-controls .btn {
+          flex: 1;
+          padding: 10px;
+          font-size: 0.5em;
+        }
+
+        .game-list {
+          max-height: 300px;
+        }
+
+        .main-content {
+          gap: 20px;
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1em;
+        }
+
+        h2 {
+          font-size: 0.7em;
         }
       }
 
       :root {
-        --primary: #4a6cb3;
-        --primary-dark: #395592;
-        --secondary: #6fc276;
-        --secondary-dark: #50a359;
-        --danger: #e74c3c;
-        --danger-dark: #c0392b;
-        --gray-light: #f5f5f5;
-        --gray: #e0e0e0;
-        --gray-dark: #9e9e9e;
-        --text: #333;
-        --text-light: #666;
-        --border-radius: 4px;
-        --light-color: #f8f9fa;
-        --border-color: #dee2e6;
-        --danger-color: #dc3545;
-        --warning-color: #ffc107;
+        /* Neon colors */
+        --neon-pink: #ff00ff;
+        --neon-cyan: #00ffff;
+        --neon-yellow: #ffff00;
+        --neon-green: #00ff00;
+        --neon-orange: #ff8800;
+        --neon-purple: #aa00ff;
+
+        /* Dark base */
+        --deep-space: #0a0a0f;
+        --arcade-black: #1a1a24;
+        --panel-dark: #252535;
+
+        /* Glow effects */
+        --glow-pink: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+        --glow-cyan: 0 0 10px #00ffff, 0 0 20px #00ffff;
+        --glow-yellow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+        --glow-green: 0 0 10px #00ff00, 0 0 20px #00ff00;
+
+        /* Arcade accents */
+        --arcade-red: #ff0040;
+        --arcade-blue: #0080ff;
+
+        /* Legacy compatibility */
+        --primary: var(--neon-cyan);
+        --secondary: var(--neon-green);
+        --danger: var(--arcade-red);
+        --border-radius: 0px;
+      }
+
+      h1, h2, h3 {
+        font-family: 'Press Start 2P', cursive;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      h1 {
+        color: var(--neon-pink);
+        text-shadow: 0 0 15px var(--neon-pink), 0 0 25px var(--neon-pink);
+        font-size: 1.2em;
+        margin: 0;
       }
 
       h2 {
-        font-size: 1.3em;
-        margin-bottom: 0.5em;
+        color: var(--neon-cyan);
+        text-shadow: 0 0 10px var(--neon-cyan);
+        font-size: 0.8em;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        color: var(--neon-green);
+        text-shadow: 0 0 8px var(--neon-green);
+        font-size: 0.7em;
       }
 
       input,
       button,
       select {
         box-sizing: border-box;
-        background-color: white;
+      }
+
+      input,
+      select,
+      textarea {
+        background: var(--arcade-black);
+        border: 2px solid var(--neon-cyan);
+        color: var(--neon-cyan);
+        font-family: 'VT323', monospace;
+        font-size: 1.1em;
+        padding: 10px;
+        border-radius: 0;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--neon-pink);
+        box-shadow:
+          inset 0 2px 5px rgba(0,0,0,0.5),
+          0 0 15px rgba(255,0,255,0.5);
+      }
+
+      input[type="checkbox"] {
+        accent-color: var(--neon-pink);
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
       }
 
       .header {
@@ -88,32 +373,93 @@
         padding: 8px 16px;
       }
 
+      .game-list-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .game-list-container h2 {
+        margin-bottom: 15px;
+        flex-shrink: 0;
+      }
+
       .game-list {
-        margin-bottom: 20px;
-        background-color: white;
-        /* need overflow: hidden for border-radius */
-        overflow: hidden;
-        border-radius: 8px;
+        background: transparent;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border-radius: 0;
+        flex: 1;
+        padding-right: 10px;
+      }
+
+      .game-list::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      .game-list::-webkit-scrollbar-track {
+        background: var(--arcade-black);
+        border: 2px solid var(--neon-cyan);
+        border-radius: 0;
+      }
+
+      .game-list::-webkit-scrollbar-thumb {
+        background: var(--neon-pink);
+        border-radius: 0;
+        box-shadow: 0 0 10px var(--neon-pink);
+      }
+
+      .game-list::-webkit-scrollbar-thumb:hover {
+        background: #ff40ff;
+        box-shadow: 0 0 15px var(--neon-pink);
       }
 
       .game-item {
         display: flex;
         align-items: stretch;
         justify-content: space-between;
+        background: linear-gradient(180deg, var(--panel-dark), var(--arcade-black));
+        border: 3px solid var(--neon-pink);
+        border-radius: 0;
+        box-shadow:
+          0 0 15px rgba(255,0,255,0.5),
+          inset 0 2px 10px rgba(255,0,255,0.2);
+        margin-bottom: 15px;
+        position: relative;
       }
+
+      .game-item::before,
+      .game-item::after {
+        content: '●';
+        position: absolute;
+        color: var(--neon-yellow);
+        font-size: 10px;
+        text-shadow: 0 0 5px var(--neon-yellow);
+        top: 5px;
+      }
+
+      .game-item::before { left: 5px; }
+      .game-item::after { right: 5px; }
 
       .game-item a {
         display: flex;
         align-items: center;
         justify-content: space-between;
         text-decoration: none;
-        color: #222;
+        color: var(--neon-cyan);
+        text-shadow: 0 0 8px var(--neon-cyan);
         flex-grow: 1;
         padding: 8px;
+        font-family: 'VT323', monospace;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
       }
 
       .game-item a:hover {
-        background-color: #f8f9fa;
+        background: rgba(0,255,255,0.1);
+        text-shadow: 0 0 15px var(--neon-cyan), 0 0 25px var(--neon-cyan);
+        transform: translateX(5px);
       }
 
       .game-item .icon,
@@ -121,6 +467,9 @@
         width: 32px;
         height: 32px;
         margin-right: 10px;
+        border: 2px solid var(--neon-cyan);
+        box-shadow: 0 0 10px rgba(0,255,255,0.3);
+        image-rendering: pixelated;
       }
 
       .game-item .game-info {
@@ -128,76 +477,154 @@
       }
 
       .game-item button {
-        padding: 5px 10px;
-        background-color: hsl(211, 80%, 97%);
+        padding: 8px 12px;
+        background: var(--neon-pink);
+        color: white;
         border: none;
         cursor: pointer;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.5em;
+        text-transform: uppercase;
+        box-shadow:
+          0 4px 0 #cc00cc,
+          0 6px 10px rgba(0,0,0,0.5);
+        transition: transform 0.1s ease;
       }
 
       .game-item button:hover {
-        background-color: hsl(211, 70%, 92%);
+        background: #ff40ff;
+      }
+
+      .game-item button:active {
+        transform: translateY(2px);
+        box-shadow:
+          0 2px 0 #cc00cc,
+          0 4px 5px rgba(0,0,0,0.5);
       }
 
       .btn {
-        padding: 5px 8px;
+        padding: 12px 20px;
         border: none;
-        border-radius: var(--border-radius);
+        border-radius: 0;
         cursor: pointer;
-        font-weight: 500;
-        transition: background-color 0.2s;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.6em;
+        text-transform: uppercase;
+        transition: transform 0.1s ease;
+        position: relative;
       }
 
       .btn-primary {
-        background-color: var(--primary);
+        background: var(--neon-pink);
         color: white;
+        text-shadow: 0 2px 3px rgba(0,0,0,0.7);
+        box-shadow:
+          0 6px 0 #cc00cc,
+          0 8px 15px rgba(0,0,0,0.5),
+          0 0 20px rgba(255,0,255,0.3);
       }
 
       .btn-primary:hover {
-        background-color: var(--primary-dark);
+        background: #ff40ff;
+      }
+
+      .btn-primary:active {
+        transform: translateY(4px);
+        box-shadow:
+          0 2px 0 #cc00cc,
+          0 4px 8px rgba(0,0,0,0.5);
       }
 
       .btn-secondary {
-        background-color: var(--secondary);
-        color: white;
+        background: var(--neon-cyan);
+        color: var(--arcade-black);
+        font-weight: bold;
+        box-shadow:
+          0 6px 0 #00cccc,
+          0 8px 15px rgba(0,0,0,0.5),
+          0 0 20px rgba(0,255,255,0.3);
       }
 
       .btn-secondary:hover {
-        background-color: var(--secondary-dark);
+        background: #40ffff;
+      }
+
+      .btn-secondary:active {
+        transform: translateY(4px);
+        box-shadow:
+          0 2px 0 #00cccc,
+          0 4px 8px rgba(0,0,0,0.5);
       }
 
       .btn-danger {
-        background-color: var(--danger);
+        background: var(--arcade-red);
         color: white;
+        text-shadow: 0 2px 3px rgba(0,0,0,0.7);
+        box-shadow:
+          0 6px 0 #cc0030,
+          0 8px 15px rgba(0,0,0,0.5),
+          0 0 20px rgba(255,0,64,0.3);
       }
 
       .btn-danger:hover {
-        background-color: var(--danger-dark);
+        background: #ff4070;
+      }
+
+      .btn-danger:active {
+        transform: translateY(4px);
+        box-shadow:
+          0 2px 0 #cc0030,
+          0 4px 8px rgba(0,0,0,0.5);
       }
 
       .btn-outline {
-        background-color: transparent;
-        border: 1px solid var(--gray-dark);
-        color: var(--text);
+        background: transparent;
+        border: 3px solid var(--neon-green);
+        color: var(--neon-green);
+        text-shadow: 0 0 8px var(--neon-green);
+        box-shadow: 0 0 15px rgba(0,255,0,0.3);
       }
 
       .btn-outline:hover {
-        background-color: var(--gray);
+        background: rgba(0,255,0,0.1);
+        box-shadow: 0 0 25px rgba(0,255,0,0.5);
+      }
+
+      .btn-outline:active {
+        transform: translateY(2px);
       }
 
       .save-button {
         display: block;
         width: 100%;
-        font-size: 1.2em;
-        padding: 10px;
-        background-color: hsl(130, 65%, 30%);
+        font-size: 0.9em;
+        padding: 15px;
+        background: var(--neon-green);
+        color: var(--arcade-black);
         border: none;
-        border-radius: 4px;
+        border-radius: 0;
         cursor: pointer;
-        color: white;
+        font-family: 'Press Start 2P', cursive;
+        text-transform: uppercase;
+        font-weight: bold;
+        box-shadow:
+          0 6px 0 #00cc00,
+          0 0 30px rgba(0,255,0,0.5);
+        transition: transform 0.1s ease;
       }
 
       .save-button:hover {
-        background-color: hsl(130, 65%, 20%);
+        background: #40ff40;
+        box-shadow:
+          0 6px 0 #00cc00,
+          0 0 40px rgba(0,255,0,0.7);
+      }
+
+      .save-button:active {
+        transform: translateY(4px);
+        box-shadow:
+          0 2px 0 #00cc00,
+          0 0 20px rgba(0,255,0,0.5);
       }
 
       .btn-full {
@@ -218,18 +645,22 @@
       }
 
       .warning-message {
-        background-color: #fff3cd;
-        color: #856404;
-        padding: 10px;
-        border-radius: var(--border-radius);
+        background: var(--arcade-black);
+        border: 3px solid var(--neon-yellow);
+        color: var(--neon-yellow);
+        font-family: 'VT323', monospace;
+        box-shadow: 0 0 15px rgba(255,255,0,0.3);
+        padding: 15px;
+        border-radius: 0;
         margin: 10px 0;
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
-      .warning-message i {
-        margin-right: 8px;
+      .warning-message span:first-child {
+        font-size: 1.5em;
+        text-shadow: 0 0 10px var(--neon-yellow);
       }
 
       .loading {
@@ -268,6 +699,9 @@
         margin-bottom: 5px;
         font-weight: bold;
         font-size: 0.9em;
+        color: var(--neon-cyan);
+        font-family: 'VT323', monospace;
+        text-shadow: 0 0 5px var(--neon-cyan);
       }
 
       .form-group label.toggle-label {
@@ -277,16 +711,25 @@
       input[type="file"] {
         width: 100%;
         padding: 8px 10px;
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
         font-size: 0.95em;
         box-sizing: border-box;
-        /* Include padding in width */
+        cursor: pointer;
       }
 
-      input[type="file"] {
-        padding: 5px;
-        /* Different padding for file input */
+      input[type="file"]::file-selector-button {
+        background: var(--neon-purple);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.6em;
+        cursor: pointer;
+        margin-right: 10px;
+        box-shadow: 0 4px 0 #7700cc;
+      }
+
+      input[type="file"]::file-selector-button:hover {
+        background: #cc40ff;
       }
 
       .settings-container select,
@@ -294,10 +737,7 @@
       .settings-container textarea {
         width: 100%;
         padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
         box-sizing: border-box;
-        /* Include padding in width */
       }
 
       .settings-grid {
@@ -323,6 +763,8 @@
         font-weight: normal;
         display: flex;
         align-items: center;
+        color: var(--neon-yellow);
+        text-shadow: 0 0 5px var(--neon-yellow);
       }
 
       .settings-grid .checkbox input[type="checkbox"] {
@@ -348,16 +790,20 @@
       .preview-container {
         display: flex;
         align-items: center;
-        padding: 10px;
-        border: 1px dashed var(--border-color);
-        border-radius: 4px;
+        padding: 15px;
+        border: 3px solid var(--neon-purple);
+        border-radius: 0;
         margin-bottom: 15px;
-        background-color: var(--light-color);
+        background: linear-gradient(135deg, var(--panel-dark), var(--arcade-black));
+        box-shadow: 0 0 15px rgba(170,0,255,0.3);
       }
 
-      .preview-container .game-name {
+      .preview-container .preview-name {
         font-size: 1.1em;
         margin: 0 10px;
+        color: var(--neon-cyan);
+        font-family: 'VT323', monospace;
+        text-shadow: 0 0 8px var(--neon-cyan);
       }
 
       .manage-controls {
@@ -368,41 +814,69 @@
       }
 
       .control-button {
-        padding: 5px 8px;
-        font-size: 0.85em;
+        padding: 8px 12px;
+        font-size: 10px;
         line-height: 1;
         min-width: 30px;
-        border-radius: 4px;
+        border-radius: 0;
         cursor: pointer;
-        border: 1px solid transparent;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
+        border: none;
+        font-family: 'Press Start 2P', cursive;
+        text-transform: uppercase;
+        transition: transform 0.1s ease;
       }
 
       .danger-button {
-        background-color: var(--danger-color);
+        background: var(--arcade-red);
         color: white;
-        border-color: var(--danger-color);
+        text-shadow: 0 2px 3px rgba(0,0,0,0.7);
+        box-shadow:
+          0 4px 0 #cc0030,
+          0 0 15px rgba(255,0,64,0.3);
       }
 
       .danger-button:hover {
-        background-color: #c82333;
-        border-color: #bd2130;
+        background: #ff4070;
+      }
+
+      .danger-button:active {
+        transform: translateY(2px);
+        box-shadow:
+          0 2px 0 #cc0030,
+          0 0 10px rgba(255,0,64,0.3);
       }
 
       .warning-button {
-        background-color: var(--warning-color);
-        color: var(--dark-color);
-        border-color: var(--warning-color);
+        background: var(--neon-yellow);
+        color: var(--arcade-black);
+        font-weight: bold;
+        box-shadow:
+          0 4px 0 #cccc00,
+          0 0 15px rgba(255,255,0,0.3);
       }
 
       .warning-button:hover {
-        background-color: #e0a800;
-        border-color: #d39e00;
+        background: #ffff40;
+      }
+
+      .warning-button:active {
+        transform: translateY(2px);
+        box-shadow:
+          0 2px 0 #cccc00,
+          0 0 10px rgba(255,255,0,0.3);
       }
 
       .advanced-settings summary {
         margin-top: 1.5em;
         margin-bottom: 1em;
+        cursor: pointer;
+        color: var(--neon-purple);
+        text-shadow: 0 0 8px var(--neon-purple);
+      }
+
+      .advanced-settings summary:hover {
+        color: var(--neon-pink);
+        text-shadow: 0 0 15px var(--neon-pink);
       }
 
       summary h3 {
@@ -419,19 +893,24 @@
       .aux-file-upload-btn {
         display: block;
         width: 100%;
-        padding: 5px 10px;
+        padding: 10px;
         text-align: center;
-        background-color: #f5f5f5;
-        border: 1px dashed #9e9e9e;
-        border-radius: 4px;
-        color: #666;
+        background: var(--panel-dark);
+        border: 2px dashed var(--neon-purple);
+        border-radius: 0;
+        color: var(--neon-purple);
+        font-family: 'VT323', monospace;
         cursor: pointer;
-        transition: background-color 0.2s, border-color 0.2s;
+        transition: all 0.2s;
         box-sizing: border-box;
+        box-shadow: 0 0 10px rgba(170,0,255,0.2);
       }
 
       .aux-file-upload:hover .aux-file-upload-btn {
-        background-color: #e0e0e0;
+        background: rgba(170,0,255,0.1);
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+        box-shadow: 0 0 15px rgba(255,0,255,0.3);
       }
 
       .aux-file-upload input[type="file"] {
@@ -445,39 +924,64 @@
       }
 
       .keyboard-controls {
-        background: white;
+        background: var(--arcade-black);
+        border: 3px solid var(--neon-green);
+        box-shadow: 0 0 20px rgba(0,255,0,0.3);
         padding: 12px;
-        border-radius: 8px;
-        margin-top: 20px;
+        border-radius: 0;
+        flex-shrink: 0;
       }
 
       .keyboard-controls h3 {
-        margin: 0;
-        font-size: 1.05em;
+        margin: 0 0 8px 0;
+        font-size: 0.6em;
+        color: var(--neon-green);
+        text-shadow: 0 0 10px var(--neon-green);
       }
 
-      .keyboard-controls table {
-        margin-top: 10px;
-        width: 100%;
+      .keyboard-controls-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px 15px;
+        font-size: 0.75em;
       }
 
-      .keyboard-controls table td {
-        text-align: center;
+      .keyboard-control-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--neon-cyan);
+        font-family: 'VT323', monospace;
+        padding: 2px 0;
+      }
+
+      .keyboard-control-item .keys {
+        min-width: 80px;
+        text-align: left;
       }
 
       .keyboard-controls .key {
-        background-color: #f5f5f5;
-        border: 1px solid #9e9e9e;
-        border-radius: 3px;
+        background: var(--panel-dark);
+        border: 2px solid var(--neon-yellow);
+        color: var(--neon-yellow);
+        border-radius: 0;
         padding: 2px 6px;
-        font-family: monospace;
-        font-size: 12px;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 7px;
+        box-shadow: 0 2px 0 rgba(255,255,0,0.3);
+        display: inline-block;
+        white-space: nowrap;
       }
     </style>
-    <div id="loading">Loading...</div>
+    <div id="loading">
+      <div class="cartridge-loader">
+        <div class="cartridge-label"></div>
+      </div>
+      <div class="loading-text">LOADING...</div>
+    </div>
     <main id="main" style="display: none">
       <div class="header">
-        <h1>freej2me-web</h1>
+        <h1>J2ME Player</h1>
         <div class="data-controls">
           <button class="btn btn-outline" id="import-data-btn">
             Import Data
@@ -499,8 +1003,12 @@
           >
         </div>
       </div>
-      <h2>Installed Games</h2>
-      <div id="game-list" class="game-list">
+
+      <div class="main-content">
+        <div class="left-panel">
+          <div class="game-list-container">
+            <h2>Installed Games</h2>
+            <div id="game-list" class="game-list">
         <div class="game-item">
           <a href="run">
             <div class="icon"></div>
@@ -509,6 +1017,48 @@
           <button>Manage</button>
         </div>
       </div>
+          </div>
+
+          <div class="keyboard-controls">
+            <h3>Keyboard controls</h3>
+            <div class="keyboard-controls-grid">
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">Esc</span></span>
+                <span>Menu</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">F1</span>/<span class="key">Q</span></span>
+                <span>Left soft</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">F2</span>/<span class="key">W</span></span>
+                <span>Right soft</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">0-9</span></span>
+                <span>Keypad</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">↑↓←→</span></span>
+                <span>D-Pad</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">Enter</span></span>
+                <span>OK/Action</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">E</span></span>
+                <span>Star (*)</span>
+              </div>
+              <div class="keyboard-control-item">
+                <span class="keys"><span class="key">R</span></span>
+                <span>Hash (#)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-panel">
       <div class="add-edit-header">
         <h2 id="add-edit-text">Add new game</h2>
         <button id="clear-current" class="btn btn-outline">Clear</button>
@@ -677,60 +1227,8 @@
         </div>
         <button class="save-button" id="add-save-button">Add game</button>
       </div>
-      <div class="keyboard-controls">
-        <h3>Keyboard controls</h3>
-        <table>
-          <tr>
-            <td><span class="key">Esc</span></td>
-            <td>Enter/exit freej2me options</td>
-          </tr>
-          <tr>
-            <td><span class="key">F1</span> or <span class="key">Q</span></td>
-            <td>Left soft key</td>
-          </tr>
-          <tr>
-            <td><span class="key">F2</span> or <span class="key">W</span></td>
-            <td>Right soft key</td>
-          </tr>
-          <tr>
-            <td><span class="key">0</span> to <span class="key">9</span></td>
-            <td>Keypad numbers</td>
-          </tr>
-          <tr>
-            <td>Numpad keys</td>
-            <td>Numbers with keys 123 and 789 swaped</td>
-          </tr>
-          <tr>
-            <td><span class="key">E</span></td>
-            <td>*</td>
-          </tr>
-          <tr>
-            <td><span class="key">R</span></td>
-            <td>#</td>
-          </tr>
-          <tr>
-            <td><span class="key">↑</span></td>
-            <td>Up</td>
-          </tr>
-          <tr>
-            <td><span class="key">↓</span></td>
-            <td>Down</td>
-          </tr>
-          <tr>
-            <td><span class="key">←</span></td>
-            <td>Left</td>
-          </tr>
-          <tr>
-            <td><span class="key">→</span></td>
-            <td>Right</td>
-          </tr>
-          <tr>
-            <td><span class="key">⏎ Enter</span></td>
-            <td>Action key (OK button)</td>
-          </tr>
-        </table>
+        </div>
       </div>
-      <br /><br />
     </main>
     <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
     <script type="module" src="src/launcher.js"></script>
