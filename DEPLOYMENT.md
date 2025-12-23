@@ -418,22 +418,33 @@ Already configured in `web/_headers` for Cloudflare Pages.
 
 6. **Check file structure:**
    ```
-   web/
-   ├── _headers          ← Must be in web/ folder
-   ├── index.html
-   ├── run.html
-   ├── freej2me-web.jar  ← File to test
+   project-root/
+   ├── functions/              ← Cloudflare Pages Functions
+   │   └── _middleware.js      ← Range request handler (CRITICAL!)
+   ├── web/                    ← Build output directory
+   │   ├── _headers           ← Headers configuration
+   │   ├── index.html
+   │   ├── run.html
+   │   ├── freej2me-web.jar   ← File to test
+   │   └── ...
    └── ...
    ```
 
+   **IMPORTANT:** The `functions/_middleware.js` file is CRITICAL for proper Range support!
+
 **Why this happens:**
-- First deployment may not pick up `_headers` file immediately
-- Cloudflare needs to propagate headers across CDN
-- Browser cache may serve old response without headers
+- Cloudflare Pages doesn't return HTTP 206 for Range requests by default
+- CheerpJ requires proper HTTP 206 (Partial Content) responses
+- The `functions/_middleware.js` handles this automatically
+
+**The Solution:**
+The project includes a Cloudflare Pages Function (`functions/_middleware.js`) that intercepts Range requests and returns proper HTTP 206 responses. This file MUST be deployed with your project.
 
 **After fixing:**
+- Commit and push both `web/_headers` and `functions/_middleware.js`
 - Wait 1-2 minutes for CDN propagation
-- Test with `curl -I` command above
+- Test with `curl -I -H "Range: bytes=0-1023"` command
+- Should return HTTP/2 206 (not HTTP/2 200)
 - Hard refresh browser
 
 ### Issue: Service Worker not registering

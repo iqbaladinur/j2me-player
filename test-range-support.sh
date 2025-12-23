@@ -57,8 +57,12 @@ HTTP_CODE=$(curl -sI -H "Range: bytes=0-1023" "$JAR_URL" | grep "HTTP" | awk '{p
 if [ "$HTTP_CODE" = "206" ]; then
     echo -e "${GREEN}✓ PASSED: Server supports partial content (HTTP 206)${NC}"
 elif [ "$HTTP_CODE" = "200" ]; then
-    echo -e "${YELLOW}⚠ WARNING: Server returns HTTP 200 instead of 206${NC}"
-    echo "   This might still work, but is not ideal"
+    echo -e "${RED}❌ FAILED: Server returns HTTP 200 instead of 206${NC}"
+    echo "   CheerpJ requires HTTP 206 for Range requests!"
+    echo ""
+    echo "   Fix: Deploy functions/_middleware.js"
+    echo "   This file handles Range requests and returns proper 206 responses"
+    RANGE_SUPPORT_FAILED=1
 else
     echo -e "${RED}❌ FAILED: Unexpected HTTP code: $HTTP_CODE${NC}"
     exit 1
