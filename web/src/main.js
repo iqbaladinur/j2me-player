@@ -152,10 +152,13 @@ function setListeners() {
         display.focus();
         noMouse = true;
 
+        const rect = display.getBoundingClientRect();
+        const touch = e.changedTouches[0];
+
         evtQueue.queueEvent({
             kind: 'pointerpressed',
-            x: (e.changedTouches[0].pageX - display.offsetLeft) / display.currentCSSZoom | 0,
-            y: (e.changedTouches[0].pageY - display.offsetTop) / display.currentCSSZoom | 0,
+            x: (touch.clientX - rect.left) / display.currentCSSZoom | 0,
+            y: (touch.clientY - rect.top) / display.currentCSSZoom | 0,
         });
 
         e.preventDefault();
@@ -164,10 +167,13 @@ function setListeners() {
     display.addEventListener('touchmove', async e => {
         noMouse = true;
 
+        const rect = display.getBoundingClientRect();
+        const touch = e.changedTouches[0];
+
         evtQueue.queueEvent({
             kind: 'pointerdragged',
-            x: (e.changedTouches[0].pageX - display.offsetLeft) / display.currentCSSZoom | 0,
-            y: (e.changedTouches[0].pageY - display.offsetTop) / display.currentCSSZoom | 0,
+            x: (touch.clientX - rect.left) / display.currentCSSZoom | 0,
+            y: (touch.clientY - rect.top) / display.currentCSSZoom | 0,
         });
 
         e.preventDefault();
@@ -176,10 +182,13 @@ function setListeners() {
     display.addEventListener('touchend', async e => {
         noMouse = true;
 
+        const rect = display.getBoundingClientRect();
+        const touch = e.changedTouches[0];
+
         evtQueue.queueEvent({
             kind: 'pointerreleased',
-            x: (e.changedTouches[0].pageX - display.offsetLeft) / display.currentCSSZoom | 0,
-            y: (e.changedTouches[0].pageY - display.offsetTop) / display.currentCSSZoom | 0,
+            x: (touch.clientX - rect.left) / display.currentCSSZoom | 0,
+            y: (touch.clientY - rect.top) / display.currentCSSZoom | 0,
         });
 
         e.preventDefault();
