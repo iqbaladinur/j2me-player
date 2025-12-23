@@ -3,7 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>freej2me-web</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <!-- SEO Meta Tags -->
+    <title>Playing Game - J2ME Player</title>
+    <meta name="description" content="Playing J2ME game on J2ME Player. Experience classic mobile games with touch controls and keyboard support." />
+    <meta name="keywords" content="J2ME, Java ME, mobile games, emulator, play online, retro gaming" />
+    <meta name="author" content="J2ME Player" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Playing Game - J2ME Player" />
+    <meta property="og:description" content="Playing J2ME game on J2ME Player" />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Playing Game - J2ME Player" />
+    <meta name="twitter:description" content="Playing J2ME game on J2ME Player" />
+    <meta name="twitter:image" content="/favicon.svg" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" />
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
@@ -467,20 +495,37 @@
     <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
     <script type="module" src="src/main.js"></script>
     <script>
-      // Register Service Worker for caching
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then((registration) => {
-              console.log('[App] Service Worker registered:', registration.scope);
-            })
-            .catch((error) => {
-              console.error('[App] Service Worker registration failed:', error);
-            });
-        });
-      } else {
-        console.warn('[App] Service Worker not supported in this browser');
+      // Cache management
+      const CACHE_ENABLED_KEY = 'freej2me-cache-enabled';
+
+      function getCacheEnabled() {
+        const stored = localStorage.getItem(CACHE_ENABLED_KEY);
+        return stored === null ? true : stored === 'true';
       }
+
+      async function registerServiceWorker() {
+        if (!("serviceWorker" in navigator)) {
+          console.warn("[App] Service Worker not supported in this browser");
+          return;
+        }
+
+        if (!getCacheEnabled()) {
+          console.log("[App] Cache disabled, skipping service worker registration");
+          return;
+        }
+
+        try {
+          const registration = await navigator.serviceWorker.register("sw.js");
+          console.log("[App] Service Worker registered:", registration.scope);
+        } catch (error) {
+          console.error("[App] Service Worker registration failed:", error);
+        }
+      }
+
+      // Register Service Worker for caching
+      window.addEventListener("load", () => {
+        registerServiceWorker();
+      });
     </script>
 </body>
 </html>
