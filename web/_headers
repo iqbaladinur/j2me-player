@@ -1,0 +1,30 @@
+# Cloudflare Pages Headers Configuration
+# This file optimizes caching for CheerpJ assets
+
+# Cache JAR files for 1 year (they have content hashes)
+/*.jar
+  Cache-Control: public, max-age=31536000, immutable
+  Accept-Ranges: bytes
+
+# Cache JS/CSS files for 1 week
+/*.js
+  Cache-Control: public, max-age=604800
+  Accept-Ranges: bytes
+
+/*.css
+  Cache-Control: public, max-age=604800
+
+# Cache HTML files for 1 hour (so updates propagate faster)
+/*.html
+  Cache-Control: public, max-age=3600
+
+# Service Worker should always be fresh
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Default for all other files
+/*
+  Accept-Ranges: bytes
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin

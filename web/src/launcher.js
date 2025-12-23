@@ -14,6 +14,9 @@ let defaultSettings = {};
 
 async function main() {
     document.querySelector("#loading .loading-text").textContent = "Loading Sandbox";
+
+    // CheerpJ 4.x automatically persists /files directory to IndexedDB
+    // No additional options needed for persistence
     await cheerpjInit({
         enableDebug: false
     });

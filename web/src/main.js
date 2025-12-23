@@ -232,7 +232,7 @@ async function ensureAppInstalled(lib, appId) {
 }
 
 async function init() {
-    document.getElementById("loading").textContent = "Loading Sandbox";
+    document.querySelector("#loading .loading-text").textContent = "Loading Sandbox";
 
     display = document.getElementById('display');
     screenCtx = display.getContext('2d');
@@ -317,7 +317,7 @@ async function init() {
         }
     });
 
-    document.getElementById("loading").textContent = "Loading...";
+    document.querySelector("#loading .loading-text").textContent = "Loading...";
 
     const lib = await cheerpjRunLibrary(cheerpjWebRoot+"/freej2me-web.jar");
 
@@ -336,7 +336,7 @@ async function init() {
 
     FreeJ2ME.main(args).catch(e => {
         e.printStackTrace();
-        document.getElementById('loading').textContent = 'Crash :(';
+        document.querySelector('#loading .loading-text').textContent = 'Crash :(';
     });
 
 

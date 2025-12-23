@@ -1232,5 +1232,21 @@
     </main>
     <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
     <script type="module" src="src/launcher.js"></script>
+    <script>
+      // Register Service Worker for caching
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then((registration) => {
+              console.log('[App] Service Worker registered:', registration.scope);
+            })
+            .catch((error) => {
+              console.error('[App] Service Worker registration failed:', error);
+            });
+        });
+      } else {
+        console.warn('[App] Service Worker not supported in this browser');
+      }
+    </script>
   </body>
 </html>
