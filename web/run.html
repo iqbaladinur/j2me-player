@@ -144,37 +144,14 @@
     }
 
     .cartridge-loader {
-        width: 100px;
+        width: 120px;
         height: 120px;
-        background: linear-gradient(145deg, var(--panel-dark), var(--arcade-black));
-        border: 3px solid var(--neon-cyan);
-        box-shadow: var(--glow-cyan);
-        position: relative;
-        animation: spin 2s ease-in-out infinite, glow-pulse 1.5s ease-in-out infinite;
     }
 
-    .cartridge-loader::before {
-        content: 'J2ME';
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-family: 'Press Start 2P', cursive;
-        font-size: 10px;
-        color: var(--neon-pink);
-        text-shadow: 0 0 5px var(--neon-pink);
-    }
-
-    .cartridge-loader::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        height: 10px;
-        background: var(--deep-space);
-        border-top: 2px solid var(--neon-yellow);
+    .cartridge-loader img {
+        width: 100%;
+        height: 100%;
+        animation: glow-pulse 1.5s ease-in-out infinite;
     }
 
     @keyframes spin {
@@ -183,8 +160,12 @@
     }
 
     @keyframes glow-pulse {
-        0%, 100% { box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
-        50% { box-shadow: 0 0 30px var(--neon-cyan), 0 0 50px var(--neon-cyan), 0 0 70px var(--neon-cyan); }
+        0%, 100% {
+            filter: drop-shadow(0 0 10px var(--neon-cyan)) drop-shadow(0 0 20px var(--neon-cyan));
+        }
+        50% {
+            filter: drop-shadow(0 0 20px var(--neon-cyan)) drop-shadow(0 0 40px var(--neon-cyan)) drop-shadow(0 0 60px var(--neon-cyan));
+        }
     }
 
     .loading-text {
@@ -450,7 +431,7 @@
         <canvas tabindex="0" id="display" style="display: none;"></canvas>
         <div id="loading">
             <div class="cartridge-loader">
-                <div class="cartridge-label"></div>
+                <img src="favicon.svg" alt="J2ME Player" />
             </div>
             <div class="loading-text">LOADING...</div>
         </div>
