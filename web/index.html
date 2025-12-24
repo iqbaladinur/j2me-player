@@ -1078,6 +1078,224 @@
           padding: 10px;
         }
       }
+
+      /* Keyboard Mapping Section */
+      .keyboard-mapping-section {
+        background: var(--arcade-black);
+        border: 3px solid var(--neon-purple);
+        box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 0;
+        flex-shrink: 0;
+      }
+
+      .keyboard-mapping-section summary {
+        cursor: pointer;
+        color: var(--neon-purple);
+        text-shadow: 0 0 8px var(--neon-purple);
+        user-select: none;
+      }
+
+      .keyboard-mapping-section summary:hover {
+        color: var(--neon-pink);
+        text-shadow: 0 0 15px var(--neon-pink);
+      }
+
+      .keyboard-mapping-section summary h3 {
+        display: inline;
+        font-size: 0.6em;
+      }
+
+      .keyboard-mapping-content {
+        margin-top: 15px;
+      }
+
+      .mapping-description {
+        font-size: 0.85em;
+        color: var(--neon-cyan);
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+
+      .mapping-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 10px;
+        padding-right: 5px;
+      }
+
+      .mapping-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .mapping-list::-webkit-scrollbar-track {
+        background: var(--arcade-black);
+        border: 2px solid var(--neon-purple);
+        border-radius: 0;
+      }
+
+      .mapping-list::-webkit-scrollbar-thumb {
+        background: var(--neon-purple);
+        border-radius: 0;
+        box-shadow: 0 0 10px var(--neon-purple);
+      }
+
+      .mapping-list::-webkit-scrollbar-thumb:hover {
+        background: #cc40ff;
+        box-shadow: 0 0 15px var(--neon-purple);
+      }
+
+      .mapping-item {
+        background: var(--panel-dark);
+        border: 2px solid var(--neon-cyan);
+        padding: 8px;
+        margin-bottom: 8px;
+        border-radius: 0;
+      }
+
+      .mapping-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .action-name {
+        color: var(--neon-green);
+        font-weight: bold;
+        font-size: 0.9em;
+        text-shadow: 0 0 5px var(--neon-green);
+      }
+
+      .btn-add-key {
+        padding: 4px 8px;
+        font-size: 0.5em;
+        background: var(--neon-purple);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        text-transform: uppercase;
+        box-shadow: 0 3px 0 #7700cc;
+        transition: transform 0.1s ease;
+        border-radius: 0;
+      }
+
+      .btn-add-key:hover {
+        background: #cc40ff;
+      }
+
+      .btn-add-key:active {
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 #7700cc;
+      }
+
+      .mapped-keys {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        min-height: 24px;
+      }
+
+      .mapped-key-chip {
+        background: var(--neon-yellow);
+        color: var(--arcade-black);
+        padding: 4px 8px;
+        font-size: 0.8em;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: "VT323", monospace;
+        border-radius: 0;
+        box-shadow: 0 2px 0 rgba(204, 204, 0, 0.5);
+      }
+
+      .remove-key-btn {
+        background: var(--arcade-red);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 0 4px;
+        font-weight: bold;
+        font-size: 1.1em;
+        line-height: 1;
+        border-radius: 0;
+      }
+
+      .remove-key-btn:hover {
+        background: #ff4070;
+      }
+
+      /* Key Capture Modal */
+      .key-capture-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+      }
+
+      .key-capture-content {
+        background: var(--arcade-black);
+        border: 5px solid var(--neon-pink);
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 50px rgba(255, 0, 255, 0.5), inset 0 0 30px rgba(255, 0, 255, 0.1);
+        max-width: 90%;
+        border-radius: 0;
+      }
+
+      .key-capture-content h2 {
+        color: var(--neon-pink);
+        margin-bottom: 20px;
+        font-size: 0.8em;
+      }
+
+      .key-capture-content p {
+        color: var(--neon-cyan);
+        font-size: 1.1em;
+        margin-bottom: 15px;
+      }
+
+      .captured-key-display {
+        background: var(--panel-dark);
+        border: 3px solid var(--neon-yellow);
+        color: var(--neon-yellow);
+        padding: 20px;
+        font-size: 1.5em;
+        margin: 15px 0;
+        font-family: "Press Start 2P", cursive;
+        text-shadow: 0 0 10px var(--neon-yellow);
+        box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.2);
+        border-radius: 0;
+      }
+
+      @media (max-width: 768px) {
+        .keyboard-mapping-section {
+          margin-bottom: 15px;
+        }
+
+        .mapping-list {
+          max-height: 200px;
+        }
+
+        .key-capture-content {
+          padding: 20px;
+        }
+
+        .key-capture-content h2 {
+          font-size: 0.6em;
+        }
+
+        .captured-key-display {
+          font-size: 1.2em;
+          padding: 15px;
+        }
+      }
     </style>
     <div id="loading">
       <div class="cartridge-loader">
@@ -1126,6 +1344,25 @@
                 <button>Manage</button>
               </div>
             </div>
+          </div>
+
+          <div class="keyboard-mapping-section">
+            <details>
+              <summary>
+                <h3>Customize Keyboard Mappings</h3>
+              </summary>
+              <div class="keyboard-mapping-content">
+                <p class="mapping-description">
+                  Click "Add Key" next to any action, then press the key you want to map.
+                </p>
+                <button id="reset-mappings-btn" class="btn btn-outline btn-full">
+                  Reset to Defaults
+                </button>
+                <div id="mapping-list" class="mapping-list">
+                  <!-- Dynamically generated -->
+                </div>
+              </div>
+            </details>
           </div>
 
           <div class="keyboard-controls">

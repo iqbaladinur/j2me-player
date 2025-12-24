@@ -3,6 +3,8 @@ const cheerpjWebRoot = '/app'+location.pathname.replace(/\/$/,'');
 
 const emptyIcon = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
+import { initKeyMapperUI } from "./keyMapperUI.js";
+
 let lib = null, launcherUtil = null;
 let state = {
     games: [],
@@ -36,6 +38,9 @@ async function main() {
 
     document.getElementById("loading").style.display = "none";
     document.getElementById("main").style.display = "";
+
+    // Initialize keyboard mapper UI
+    initKeyMapperUI();
 
     document.getElementById("clear-current").onclick = setupAddMode;
 

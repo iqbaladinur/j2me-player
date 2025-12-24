@@ -3,6 +3,7 @@ import { LibMidi, createUnlockingAudioContext } from "../libmidi/libmidi.js";
 import { codeMap, KeyRepeatManager } from "./key.js";
 import { EventQueue } from "./eventqueue.js";
 import { initKbdListeners, setKbdHandler, kbdWidth, kbdHeight } from "./screenKbd.js";
+import { KeyMapper } from "./keyMapper.js";
 
 // we need to import natives here, don't use System.loadLibrary
 // since CheerpJ fails to load them in firefox and we can't set breakpoints
@@ -27,6 +28,7 @@ let fractionScale = sp.get('fractionScale') || (localStorage && localStorage.get
 let scaleSet = false;
 
 const keyRepeatManager = new KeyRepeatManager();
+const keyMapper = new KeyMapper();
 
 window.evtQueue = evtQueue;
 
@@ -75,8 +77,19 @@ function setListeners() {
     function handleKeyEvent(e) {
         const isDown = e.type === 'keydown';
 
-        if (codeMap[e.code]) {
-            keyRepeatManager.post(isDown, e.code, {
+        // Try to resolve custom mapping first
+        let effectiveKey = e.code;
+        const action = keyMapper.getActionForKey(e.code);
+        if (action) {
+            // Get the canonical key for this action (first default key)
+            const canonicalKeys = keyMapper.getDefaultKeysForAction(action);
+            if (canonicalKeys.length > 0) {
+                effectiveKey = canonicalKeys[0];
+            }
+        }
+
+        if (codeMap[effectiveKey]) {
+            keyRepeatManager.post(isDown, effectiveKey, {
                 symbol: e.key.length == 1 ? e.key.charCodeAt(0) : '\x00',
                 ctrlKey: e.ctrlKey,
                 shiftKey: e.shiftKey
