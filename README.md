@@ -55,7 +55,7 @@ J2ME Player is a web-based Java ME (J2ME) emulator that brings nostalgic mobile 
 
 ## 🚀 Demo
 
-Try it now: [Live Demo](https://your-demo-url.com) _(Update with your deployment URL)_
+Try it now: **[https://j2me-player.netlify.app/](https://j2me-player.netlify.app/)**
 
 
 ## 🎯 Quick Start
@@ -148,7 +148,7 @@ J2ME Player leverages modern web technologies to bring J2ME games to the browser
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/j2me-player.git
+   git clone https://github.com/iqbaladinur/j2me-player.git
    cd j2me-player
    ```
 

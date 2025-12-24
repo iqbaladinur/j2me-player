@@ -681,6 +681,16 @@
         transform: translateY(2px);
       }
 
+      .github-button {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+      }
+
+      .github-button svg {
+        flex-shrink: 0;
+      }
+
       .save-button {
         display: block;
         width: 100%;
@@ -1072,10 +1082,52 @@
         text-shadow: 0 0 10px var(--neon-yellow);
       }
 
+      /* Mobile footer controls - hidden by default */
+      .mobile-footer-controls {
+        display: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .footer-text {
+        margin-top: 5px;
+      }
+
       @media (max-width: 768px) {
         .footer-credit {
           font-size: 0.65em;
           padding: 10px;
+        }
+
+        /* Hide header controls on mobile */
+        .header .data-controls {
+          display: none !important;
+        }
+
+        /* Show mobile footer controls */
+        .mobile-footer-controls {
+          display: flex;
+        }
+
+        /* Make buttons smaller in footer */
+        .mobile-footer-controls .btn {
+          flex: 0 0 auto;
+          padding: 8px 12px;
+          font-size: 0.45em;
+          min-width: 0;
+          width: auto;
+          white-space: nowrap;
+        }
+
+        /* Adjust header for mobile */
+        .header {
+          margin-bottom: 15px;
+        }
+
+        .header h1 {
+          text-align: center;
         }
       }
 
@@ -1307,6 +1359,18 @@
       <div class="header">
         <h1>J2ME Player</h1>
         <div class="data-controls">
+          <a
+            href="https://github.com/iqbaladinur/j2me-player"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline github-button"
+            title="View on GitHub"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            GitHub
+          </a>
           <button class="btn btn-outline" id="import-data-btn" title="Import Data">
             Import
           </button>
@@ -1590,7 +1654,34 @@
         </div>
       </div>
       <div class="footer-credit">
-        Some included games are from <a href="https://www.schwandtner.info/midlets/" target="_blank" rel="noopener noreferrer">schwandtner.info/midlets</a>
+        <!-- Mobile controls (visible only on mobile) -->
+        <div class="mobile-footer-controls">
+          <a
+            href="https://github.com/iqbaladinur/j2me-player"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline github-button"
+            title="View on GitHub"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            GitHub
+          </a>
+          <button class="btn btn-outline" id="import-data-btn-mobile" title="Import Data">
+            Import
+          </button>
+          <button class="btn btn-outline" id="export-data-btn-mobile" title="Export Data">
+            Export
+          </button>
+          <button class="btn btn-outline" id="toggle-cache-btn-mobile" title="Toggle service worker cache">
+            Cache: <span id="cache-status-mobile">ON</span>
+          </button>
+        </div>
+
+        <div class="footer-text">
+          Some included games are from <a href="https://www.schwandtner.info/midlets/" target="_blank" rel="noopener noreferrer">schwandtner.info/midlets</a>
+        </div>
       </div>
     </main>
     <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
@@ -1611,10 +1702,16 @@
       function updateCacheStatus() {
         const enabled = getCacheEnabled();
         const statusEl = document.getElementById('cache-status');
+        const statusElMobile = document.getElementById('cache-status-mobile');
 
         if (statusEl) {
           statusEl.textContent = enabled ? 'ON' : 'OFF';
           statusEl.style.color = enabled ? 'var(--neon-green)' : 'var(--arcade-red)';
+        }
+
+        if (statusElMobile) {
+          statusElMobile.textContent = enabled ? 'ON' : 'OFF';
+          statusElMobile.style.color = enabled ? 'var(--neon-green)' : 'var(--arcade-red)';
         }
       }
 
@@ -1663,28 +1760,52 @@
         updateCacheStatus();
         registerServiceWorker();
 
-        // Setup cache toggle button
+        // Setup cache toggle button (desktop)
         const toggleBtn = document.getElementById('toggle-cache-btn');
         if (toggleBtn) {
-          toggleBtn.addEventListener('click', async () => {
-            const currentlyEnabled = getCacheEnabled();
-            const newEnabled = !currentlyEnabled;
+          toggleBtn.addEventListener('click', handleCacheToggle);
+        }
 
-            setCacheEnabled(newEnabled);
-            updateCacheStatus();
+        // Setup cache toggle button (mobile)
+        const toggleBtnMobile = document.getElementById('toggle-cache-btn-mobile');
+        if (toggleBtnMobile) {
+          toggleBtnMobile.addEventListener('click', handleCacheToggle);
+        }
 
-            if (newEnabled) {
-              await registerServiceWorker();
-              alert('Cache enabled. Page will reload.');
-              window.location.reload();
-            } else {
-              await unregisterServiceWorker();
-              alert('Cache disabled and cleared. Page will reload.');
-              window.location.reload();
-            }
+        // Setup mobile import/export buttons
+        const importBtnMobile = document.getElementById('import-data-btn-mobile');
+        if (importBtnMobile) {
+          importBtnMobile.addEventListener('click', () => {
+            document.getElementById('import-data-file').click();
+          });
+        }
+
+        const exportBtnMobile = document.getElementById('export-data-btn-mobile');
+        if (exportBtnMobile) {
+          exportBtnMobile.addEventListener('click', () => {
+            document.getElementById('export-data-btn').click();
           });
         }
       });
+
+      // Cache toggle handler (shared between desktop and mobile)
+      async function handleCacheToggle() {
+        const currentlyEnabled = getCacheEnabled();
+        const newEnabled = !currentlyEnabled;
+
+        setCacheEnabled(newEnabled);
+        updateCacheStatus();
+
+        if (newEnabled) {
+          await registerServiceWorker();
+          alert('Cache enabled. Page will reload.');
+          window.location.reload();
+        } else {
+          await unregisterServiceWorker();
+          alert('Cache disabled and cleared. Page will reload.');
+          window.location.reload();
+        }
+      }
     </script>
   </body>
 </html>
